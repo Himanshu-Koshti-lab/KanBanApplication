@@ -8,7 +8,9 @@ CREATE TABLE user_story (
     status INTEGER,
     creation_time TIMESTAMP,
     start_time TIMESTAMP,
-    last_update TIMESTAMP
+    last_update TIMESTAMP,
+    created_by VARCHAR(255) NOT NULL,
+    assigned_to VARCHAR(255)
 );
 
 CREATE SEQUENCE user_story_seq START WITH 11 INCREMENT BY 1;

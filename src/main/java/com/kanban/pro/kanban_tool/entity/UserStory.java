@@ -24,4 +24,7 @@ public class UserStory {
     Timestamp creationTime;
     Timestamp startTime;
     Timestamp lastUpdate;
+    String createdBy;
+    String assignedTo;
+
 }

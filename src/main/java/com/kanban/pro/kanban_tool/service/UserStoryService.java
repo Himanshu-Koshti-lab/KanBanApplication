@@ -49,6 +49,7 @@ public class UserStoryService {
                 .status(StoryStatus.BACKLOG)
                 .startTime(null)
                 .lastUpdate(null)
+                .createdBy("Current Developer")
                 .build();
 
         UserStory saveData = userStoryRepository.save(build);
