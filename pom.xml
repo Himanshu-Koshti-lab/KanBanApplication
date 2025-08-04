@@ -90,6 +90,7 @@
 	</dependencies>
 
 	<build>
+        <finalName>kanban-tool</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
