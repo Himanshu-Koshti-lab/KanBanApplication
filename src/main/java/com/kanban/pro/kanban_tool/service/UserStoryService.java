@@ -3,7 +3,8 @@ package com.kanban.pro.kanban_tool.service;
 import com.kanban.pro.kanban_tool.entity.UserStory;
 import com.kanban.pro.kanban_tool.enums.StoryStatus;
 import com.kanban.pro.kanban_tool.repository.UserStoryRepository;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,10 @@ import java.util.Objects;
 
 import static com.kanban.pro.kanban_tool.util.commonUtils.isEmptyOrNull;
 
-@Slf4j
 @Service
 public class UserStoryService {
+
+    Logger LOGGER = LoggerFactory.getLogger(UserStoryService.class);
 
     public UserStoryRepository userStoryRepository;
 
@@ -26,17 +28,17 @@ public class UserStoryService {
     }
 
     public List<UserStory> getUserStories() {
-        log.info("Getting UserStory...");
+        LOGGER.info("Getting UserStory...");
         return userStoryRepository.findAll();
     }
 
     public UserStory getUserStoryById(Long id) {
-        log.info("Getting UserStory by ID ");
+        LOGGER.info("Getting UserStory by ID ");
         return userStoryRepository.findById(id).orElse(null);
     }
 
     public ResponseEntity<UserStory> updateStory(UserStory userStory) {
-        log.info("Updating UserStory for {}", userStory.getId());
+        LOGGER.info("Updating UserStory for {}", userStory.getId());
         boolean isUpdateDone = false;
         if (userStoryRepository.existsById(userStory.getId()))
             isUpdateDone = userStoryRepository.save(userStory).equals(userStory);
@@ -46,7 +48,7 @@ public class UserStoryService {
     public ResponseEntity<String> create(String title, String desc) throws Exception {
 
         if (isEmptyOrNull(title)) {
-            log.error("Title is empty");
+            LOGGER.error("Title is empty");
             throw new Exception("UserStory Minimum requirement not match atleast title!!");
         }
 
@@ -65,19 +67,19 @@ public class UserStoryService {
     }
 
     public ResponseEntity<String> updateStoryStatus(Long id, String status) {
-        log.info("Updating UserStory for {} with Status {}", id, status);
+        LOGGER.info("Updating UserStory for {} with Status {}", id, status);
         boolean isUpdateDone = false;
-        UserStory userStory =  userStoryRepository.findById(id).orElse(new UserStory());
+        UserStory userStory = userStoryRepository.findById(id).orElse(new UserStory());
         userStory.setStatus(StoryStatus.valueOf(status));
-        if(Objects.equals(status, StoryStatus.IN_PROGRESS.name())){
-            log.info("UserStory status is IN_PROGRESS");
+        if (Objects.equals(status, StoryStatus.IN_PROGRESS.name())) {
+            LOGGER.info("UserStory status is IN_PROGRESS");
             userStory.setStartTime(Timestamp.from(Instant.now()));
-        }else{
+        } else {
             userStory.setLastUpdate(Timestamp.from(Instant.now()));
         }
 
         isUpdateDone = userStoryRepository.save(userStory).equals(userStory);
-        log.info("UserStory status is {}", isUpdateDone ? "Updated Successfully" : "Updated Failed");
+        LOGGER.info("UserStory status is {}", isUpdateDone ? "Updated Successfully" : "Updated Failed");
         return new ResponseEntity<>(isUpdateDone ? "Updated Done for " + id + " to Status : " + status : "Operation Failed.", HttpStatus.OK);
     }
 }

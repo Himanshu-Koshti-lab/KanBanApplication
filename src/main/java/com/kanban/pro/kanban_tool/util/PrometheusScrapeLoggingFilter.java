@@ -11,7 +11,7 @@ import java.io.IOException;
 @Component
 public class PrometheusScrapeLoggingFilter implements Filter {
 
-    private static final Logger logger = LoggerFactory.getLogger(PrometheusScrapeLoggingFilter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PrometheusScrapeLoggingFilter.class);
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -21,7 +21,7 @@ public class PrometheusScrapeLoggingFilter implements Filter {
         String path = httpReq.getRequestURI();
 
         if ("/actuator/prometheus".equals(path)) {
-            logger.info("🔄 Prometheus scraped metrics at {}", System.currentTimeMillis());
+            LOGGER.info("🔄 Prometheus scraped metrics at {}", System.currentTimeMillis());
         }
         chain.doFilter(request, response);
     }
