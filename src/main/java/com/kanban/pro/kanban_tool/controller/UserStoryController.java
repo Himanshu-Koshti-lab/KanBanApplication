@@ -68,4 +68,9 @@ public class UserStoryController {
         }
     }
 
+    @GetMapping("error")
+    public ResponseEntity<String> error() throws Exception {
+        throw new Exception("Something went wrong...Internal...");
+    }
+
 }
