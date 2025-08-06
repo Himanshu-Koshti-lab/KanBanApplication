@@ -82,4 +82,10 @@ public class UserStoryService {
         LOGGER.info("UserStory status is {}", isUpdateDone ? "Updated Successfully" : "Updated Failed");
         return new ResponseEntity<>(isUpdateDone ? "Updated Done for " + id + " to Status : " + status : "Operation Failed.", HttpStatus.OK);
     }
+    public List<UserStory> getStoriesByAsignee(String assignedTo) throws Exception{
+        if(isEmptyOrNull(assignedTo)) {
+            throw new Exception("Assignee Not Found");
+        }
+        return  userStoryRepository.findByAssignedTo(assignedTo);
+    }
 }

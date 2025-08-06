@@ -59,4 +59,13 @@ public class UserStoryController {
         return userStoryService.updateStoryStatus(id, status);
     }
 
+    @GetMapping("getUserStoriesByAsignee")
+    public ResponseEntity<List<UserStory>> getUserStoriesByAsignee(@RequestParam String assignedTo) {
+        try {
+            return ResponseEntity.ok(userStoryService.getStoriesByAsignee(assignedTo));
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }
